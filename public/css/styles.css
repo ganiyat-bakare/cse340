@@ -6,7 +6,9 @@
   --color-gray: #333;     
   --color-info: #0d2c54;            
   --color-accent: #0088cc;          
-  --color-background: #7ec8e3;    
+  --color-background: #7ec8e3; 
+   --heading-font: "Tinos", serif;
+    --paragraph-font:  "Lato", sans-serif;   
 }
 
 *,
@@ -18,9 +20,10 @@
 
 /* Base styles for body */
 body {
-  font-family: Arial, sans-serif;
+  /* font-family: Arial, sans-serif; */
   margin: 0;
   padding: 0;
+  font-family: var(--paragraph-font);
 }
 
 #wrapper {
@@ -31,6 +34,7 @@ body {
 
 /* Header */
 #top-header {
+  font-family: var(--heading-font);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -190,7 +194,8 @@ nav li {
  
 .card p {
   text-align: center;
-  padding-top: .5rem;
+  padding-top: .9rem;
+  margin-top: 1rem;
 }
 
 .card img {
