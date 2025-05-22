@@ -55,6 +55,24 @@ body {
 }
 
 /* Navigation */
+.navbar {
+  background-color: #333;
+  color: #fff;
+  margin: 0 auto;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: transform color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #0088cc;
+}
+
 nav ul {
   list-style: none;
   padding: .9rem;
@@ -244,7 +262,10 @@ footer {
     min-height: 100vh;
   }
 
-  #page-container, #header-container {
+  #page-container, 
+  #header-container, 
+  #inv-display, 
+  .page-title {
     background-color: #ffffff;
     border: 3px solid #0088cc;
     max-width: 1200px;
@@ -252,7 +273,8 @@ footer {
     padding: 2rem;
   }
 
-  #page-container {
+  #page-container,
+  .page-title {
     border-top: none;
     border-bottom: none;
   } 
@@ -275,10 +297,16 @@ footer {
 
   /* Navigation */
   .navbar {
-    background-color: #fff;
+    /* background-color: #333;
+    color: #fff; */
     margin: 0 auto;
     border-left: 3px solid #0088cc;
     border-right: 3px solid #0088cc;
+  }
+
+  .navbar a {
+    font-size: 1.2rem;
+    font-weight: 600;
   }
 
   .navbar ul {
@@ -291,6 +319,12 @@ footer {
 
   nav li {
     padding: 0.5rem 1rem;
+  }
+
+  .page-title {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 1.2rem;
   }
 
   .hero {
@@ -355,4 +389,39 @@ footer {
     border-left: 3px solid #0088cc;
     border-right: 3px solid #0088cc;
   }
+}
+
+#inv-display {
+  display: flex;
+  /* flex-direction: column; */
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 1rem;
+  list-style-type: none;
+  flex-wrap: wrap;
+  text-decoration: none;
+  border-top: none;
+  border-bottom: none;
+}
+
+#inv-display img {
+  width: 100%;
+  height: auto;
+  /* border-radius: 8px; */
+}
+
+#inv-display a {
+  text-decoration: none;
+  color: #0d2c54;
+  /* font-size: 1.2rem; */
+}
+
+#inv-display li {
+  /* text-align: center; */
+  /* background-color: #7ec8e3; */
+  padding: 0.5rem;
+  /* border: 2px solid #000;   */
+  /* width: 90%; */
+  /* height: 90px; */
+  margin-bottom: 3rem;
 }
