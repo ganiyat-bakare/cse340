@@ -1,0 +1,9 @@
+<!-- Display error view title -->
+<% if (title) { %>
+<h1 class="page-title code"><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<!-- Display error view message -->
+<p class="message"><%- message %></p>

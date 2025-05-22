@@ -265,7 +265,8 @@ footer {
   #page-container, 
   #header-container, 
   #inv-display, 
-  .page-title {
+  .page-title,
+  .message {
     background-color: #ffffff;
     border: 3px solid #0088cc;
     max-width: 1200px;
@@ -274,7 +275,8 @@ footer {
   }
 
   #page-container,
-  .page-title {
+  .page-title,
+  .message {
     border-top: none;
     border-bottom: none;
   } 
@@ -424,4 +426,13 @@ footer {
   /* width: 90%; */
   /* height: 90px; */
   margin-bottom: 3rem;
+}
+
+.code {
+  font-size: 3rem;
+  /* font-family: var(--heading-font); */
+}
+
+.message {
+  font-size: 1.2rem;
 }

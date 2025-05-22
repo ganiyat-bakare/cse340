@@ -1,12 +1,12 @@
-<!-- Building classification view title -->
+<!-- Display classification view title -->
 <% if (title) { %>
 <h1 class="page-title"><%= title %></h1>
 <% } else {
     res.redirect('/')
 } %>
 
-<!-- Build classification view message -->
+<!-- Display classification view message -->
 <%# messages() %>
 
- <!-- Inventory items main content display -->
+ <!-- Display inventory items main content -->
 <%- grid %>

@@ -26,8 +26,6 @@ util.getNav = async function (req, res, next) {
     return list
 }
 
-module.exports = util
-
 /* ************************************
 * Build the classification view HTML
 * ********************************** */
@@ -60,3 +58,12 @@ util.buildClassificationGrid = async function(data) {
     }
     return grid
 }
+
+/* ************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ * ********************************** */
+util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+module.exports = util
