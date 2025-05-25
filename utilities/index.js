@@ -66,13 +66,15 @@ util.buildVehicleDetailsGrid = async function(vehicle) {
   return `
     <section class="vehicle-detail-grid">
       <div class="vehicle-image-wrapper">
+        <h1 class="vehicle-title">${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
         <img class="vehicle-image" src="${vehicle.inv_image}" alt="Full image of ${vehicle.inv_make} ${vehicle.inv_model}">
       </div>
       <div class="vehicle-info">
-        <h1 class="vehicle-title">${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}</h1>
-        <p class="price"><strong>Price:</strong> $${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</p>
+      <div class="vehicle-info">
+        <h2>${vehicle.inv_make} ${vehicle.inv_model} Details</h2>
+        <p><strong>Price: <span class="price highlight">$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</span></strong></p>
         <p><strong>Description:</strong> <span class="description">${vehicle.inv_description}</span></p>
-        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+        <p><strong>Color:</strong> <span class="highlight"> ${vehicle.inv_color}</p>
         <p><strong>Mileage:</strong> ${new Intl.NumberFormat('en-US').format(vehicle.inv_miles)} miles</p>
       </div>
     </section>
