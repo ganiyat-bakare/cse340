@@ -320,19 +320,164 @@ section {
   display: inline-block;
 }
 
+/* Login.ejs */
+.notice {
+  background-color: var(--primary-background);
+  color: red;
+  padding: 1.5rem;
+  /* margin: 1rem auto; */
+  max-width: 500px;
+  text-align: left;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.form-container {
+  max-width: 420px;
+  margin: 2rem auto;
+  background-color: var(--main-accent);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Login form box */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding: 1rem;
+  border: 2px solid var(--primary-background);
+}
+
+/* Labels */
+.form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: var(--hightlight-text);
+  font-size: 0.95rem;
+}
+
+/* Inputs */
+.form input {
+  margin-top: 0.3rem;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e0;
+  transition: border-color 0.2s ease;
+}
+
+.form input:focus {
+  border: 2px solid var(--hightlight-text);
+  outline: none;
+}
+
+/* Submit button */
+.form button[type="submit"] {
+  background-color: var(--primary-background);
+  color: var(--hightlight-text);
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form button[type="submit"]:hover {
+  background-color: var(--hightlight-text);
+  color: var(--primary-background);
+}
+
+/* Login redirect link */
+.login-redirect,
+.form-footer {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--hightlight-text);
+}
+
+.login-redirect a,
+.form-footer a {
+  color: var(--link);
+  font-weight: 600;
+}
+
+.login-redirect a:hover {
+  color: var(--hover);
+}
+
+/* Password toggle styling */
+#pswdBtn {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  padding: 0.5rem 0.8rem;
+  background-color: var(--hightlight-text);
+  color: var(--primary-background);
+  cursor: pointer;
+  text-align: right;
+  display: inline-block;
+  align-self: flex-start;
+  border-radius: 20px;
+  transition: background-color 0.3s ease;
+}
+
+#pswdBtn:hover {
+  background-color: var(--primary-background);
+  color: var(--hightlight-text);
+}
+
+/* .password-hint {
+  font-size: 0.9rem;
+  color: var(--hightlight-text);
+  margin: 0.3rem 0 0.5rem;
+  padding-left: 1.25rem;
+  list-style-type: square;
+}
+
+.password-hint li {
+  margin-bottom: 0.2rem;
+} */
+
+.password-requirements {
+  font-size: 0.9rem;
+  color: var(--hightlight-text);
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+}
+
+input {
+  transition: background-color 0.3s, border 0.3s;
+}
+
+input:focus:invalid {
+  background-color: #ffe6e6;
+  border: 1px solid #cc0000;
+}
+
+input:required:valid, input:focus:valid {
+  background-color: #e6ffe6;
+  border: 1px solid #009900;
+}
+
 footer p {
-    margin: 0;
-    padding: 0;
-    font-size: 0.9rem;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
 }
 
 hr {
-    border: 2px solid var(--primary-text);
-    margin: 0;
+  border: 2px solid var(--primary-text);
+  margin: 0;
 }
 
 footer p a {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 
@@ -471,4 +616,21 @@ footer p a {
     .price {
       font-size: 1.5rem;
     }
+
+    .container {
+        max-width: 500px;
+        width: 100%;
+        padding: 3rem;
+    }
+
+    h1 {
+      font-size: 2.2em;
+      text-align: left;
+    }
+
+    .flash-message {
+      max-width: 500px;
+    }
 }
+
+

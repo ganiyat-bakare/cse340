@@ -1,0 +1,533 @@
+:root {
+  --color-dark: #000;               
+  --color-dark-transparent: rgba(0, 0, 0, 0.3); 
+  --color-primary: #0069d9;         
+  --color-light: #fff;
+  --color-gray: #333;     
+  --color-info: #0d2c54;            
+  --color-accent: #0088cc;          
+  --color-background: #7ec8e3; 
+   --heading-font: "Tinos", serif;
+    --paragraph-font:  "Lato", sans-serif;   
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+
+/* Base styles for body */
+body {
+  /* font-family: Arial, sans-serif; */
+  margin: 0;
+  padding: 0;
+  font-family: var(--paragraph-font);
+}
+
+#wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Header */
+#top-header {
+  font-family: var(--heading-font);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+.siteName a {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+#tools a {
+  font-size: 1rem;
+  text-decoration: none;
+  color: #000;
+}
+
+/* Navigation */
+.navbar {
+  background-color: #333;
+  color: #fff;
+  margin: 0 auto;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: transform color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #0088cc;
+}
+
+nav ul {
+  list-style: none;
+  padding: .9rem;
+  margin: 1rem 0;
+  display: flex;
+  /* gap: 1rem; */
+  /* flex-wrap: wrap; */
+  justify-content: space-evenly;
+  background-color: #333;
+  font-size: 1rem;
+}
+
+nav li {
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Hero Section - Large Screen */
+.hero {
+  padding: 1rem;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  white-space: nowrap;  
+  overflow: hidden;
+  text-align: left;
+}
+
+.hero-body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.content {
+  background: rgba(0, 123, 255, 0.3);
+  padding: 1rem;
+  white-space: nowrap;
+}
+
+.car-image {
+  text-align: center;
+}
+
+.car-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.content h2,
+.content ul {
+  text-align: left;
+}
+
+.content h2 a {
+  /* color: #0069d9; */
+  color: #0d2c54;
+  text-decoration: none;
+}
+
+.hero ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5em 0;
+  color: #0d2c54;
+}
+
+.hero h2 {
+  text-align: left;
+  font-size: 1.2em;  
+  margin: 0.5em 0 1em 0;  
+  color: #0088cc; 
+}
+
+.hero .car-image {
+  width: 100%;
+  text-align: center;
+}
+
+.hero .car-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+/* Call-to-Action Button */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #004080;
+  color: #fff;
+  text-decoration: none;
+  font-size: .7rem;
+  font-weight: bold;
+  white-space: nowrap;  
+  overflow: hidden;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0088cc;
+}
+
+/* Upgrade Section */
+.upgrades {
+  padding: 1rem;
+}
+
+.upgrades h2 {
+  text-align: left;
+  color: #0d2c54;
+  margin-bottom: 1rem;
+}
+
+ .cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.card {
+  text-align: center;
+  background-color: #7ec8e3;
+  padding: 0.5rem;
+  border: 2px solid #000;  
+  width: 90%;
+  height: 90px;
+  margin-bottom: 3rem;
+}
+ 
+.card p {
+  text-align: center;
+  padding-top: .9rem;
+  margin-top: 1rem;
+}
+
+.card img {
+  max-width: 100%;
+  width: 30%;
+  height: auto;
+}
+
+/* Reviews Section */
+.reviews {
+  padding: 1.5rem;
+}
+
+.reviews h2 {
+  text-align: left;
+  color: #0d2c54;
+  margin-bottom: 0.5rem;
+}
+
+.reviews ul {
+  list-style: disc inside;
+  padding: 0 1rem;
+}
+
+.reviews li {
+margin-bottom: 1rem;
+}
+
+/* Footer */
+footer {
+  background-color: white;
+  color: #000;
+  padding: 1rem;
+  text-align: left;
+}
+
+/* Responsive Design for large screens */
+@media (min-width: 768px) {
+  body {
+  /* Create a 40px chessboard pattern */
+    background-image:
+      linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%),
+      linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%);
+    background-size: 80px 80px;
+    background-position: 0 0, 40px 40px;
+    min-height: 100vh;
+  }
+
+  #page-container, 
+  #header-container, 
+  #inv-display, 
+  .page-title,
+  .message {
+    background-color: #ffffff;
+    border: 3px solid #0088cc;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  #page-container,
+  .page-title,
+  .message {
+    border-top: none;
+    border-bottom: none;
+  } 
+
+  #header-container {
+    border-bottom: none;
+  }
+
+  .siteName a {
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+  }
+
+  #tools a {
+    font-size: 1.1rem;
+    color: #000;
+  }
+
+  /* Navigation */
+  .navbar {
+    /* background-color: #333;
+    color: #fff; */
+    margin: 0 auto;
+    border-left: 3px solid #0088cc;
+    border-right: 3px solid #0088cc;
+  }
+
+  .navbar a {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .navbar ul {
+    padding: .5rem;
+    margin: 0 auto;
+    gap: 1rem;
+    justify-content: space-evenly;
+    font-size: 1.2rem;
+  }
+
+  nav li {
+    padding: 0.5rem 1rem;
+  }
+
+  .page-title {
+    background-color: #fff;
+    margin: 0 auto;
+    padding: 1.2rem;
+  }
+
+  .hero {
+    justify-content: space-around;
+    text-align: center;
+  }
+
+  .hero .content {
+    font-size: 1.1rem;
+    flex: 1 1 50%;
+  }
+
+  .btn {
+    font-size: 1rem;
+    padding: 0.5rem 1.5rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .upgrades-reviews-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 3rem;
+  }
+
+  .upgrades {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .card {
+    width: 100%;
+    /* height: 95px; */
+    /* margin-bottom: 3rem; */
+  }
+
+  .card img {
+    max-width: 60%;
+    width: 40%;
+    height: auto;
+  }
+
+  .reviews {
+    flex: 1;
+    padding: 1rem;
+    margin: 1rem;
+  }
+
+  .reviews ul {
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
+
+  .vehicle-detail-grid {
+    flex-direction: row;
+    align-items: flex-start;
+    max-width: 1100px;
+  }
+
+  .vehicle-image-wrapper,
+  .vehicle-info {
+    flex: 1;
+  }
+
+  .vehicle-image {
+    height: auto;
+  }
+
+  .vehicle-title {
+    font-size: 2rem;
+  }
+
+  .price {
+    font-size: 1.5rem;
+  }
+
+  footer {
+    font-size: 1.1rem;
+    border-bottom: 3px solid #0088cc;
+    border-left: 3px solid #0088cc;
+    border-right: 3px solid #0088cc;
+  }
+}
+
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  list-style-type: none;
+  text-decoration: none;
+  margin: 0 auto;
+}
+
+#inv-display li {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out, box-shadow 0.3s ease;
+}
+
+#inv-display li:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+#inv-display img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-bottom: 1px solid #ccc;
+}
+
+#inv-display a {
+  display: block;
+  padding: 1rem;
+  font-size: 1.1rem;
+  color: #0d2c54;
+  font-weight: bold;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+#inv-display a:hover {
+  color: #0088cc;
+}
+
+
+.code {
+  font-size: 3rem;
+  /* font-family: var(--heading-font); */
+}
+
+.message {
+  font-size: 1.2rem;
+}
+
+/* Vehicle Detail View Base */
+.vehicle-detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  max-width: 100%;
+  margin: 1rem auto;
+}
+
+.vehicle-image-wrapper {
+  width: 100%;
+}
+
+.vehicle-image {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.vehicle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.vehicle-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.price {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.vehicle-info p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.5;
+}
+
+.vehicle-info strong {
+  color: #2c3e50;
+}
+
+/* Large screen layout */
+@media (min-width: 768px) {
+  
+}
+
+/* Body background to match screenshot look */
+body {
+  background-color: #f5f5f5;
+}

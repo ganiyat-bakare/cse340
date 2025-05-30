@@ -1,0 +1,51 @@
+<!-- Display view title -->
+<% if (title) { %>
+  <h1 class="page-title"><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+<!-- Display view message -->
+<%- messages() %>
+
+
+<div class="form-container">
+  <form action="/account/login" method="post" class="form">
+    <label for="account_email">Email
+    <input type="email" id="account_email" name="account_email" required value="<%= locals.account_email %>"></label>
+
+    <label for="account_password">Password
+      <input type="password" id="account_password" name="account_password"
+        required
+        pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}"
+        title="Password must be at least 12 characters and include one capital letter, one number, and one special character.">
+        <div class="password-requirements">There must be at least 12 characters, 1 uppercase letter, 1 number, and 1 special character.</div>
+        <span id="pswdBtn"> Show Password</span></label>
+
+      <!-- <ul class="password-hint">
+        <li>At least 12 characters long</li>
+        <li>1 uppercase letter</li>
+        <li>1 number</li>
+        <li>1 special character</li>
+      </ul> -->
+      
+    <button type="submit">Login</button>
+
+    <p class="login-redirect">
+      No account? <a href="/account/register">Sign-up</a>
+    </p>
+  </form>
+</div>
+<script>
+  const pswdBtn = document.getElementById('pswdBtn');
+  pswdBtn.addEventListener("click", function(){
+    const pswdInput = document.getElementById("account_password");
+    const type = pswdInput.getAttribute("type");
+    if (type == "password") {
+      pswdInput.setAttribute("type", "text");
+      pswdBtn.innerHTML = "Hide Password";
+    } else {
+      pswdInput.setAttribute("type", "password");
+      pswdBtn.innerHTML = "Show Password";
+    }
+    });
+</script>

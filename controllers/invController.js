@@ -16,6 +16,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
     title: className + " vehicles",
     nav,
     grid,
+    errors: null,
   })
 }
 
@@ -32,6 +33,7 @@ invCont.buildItemDetails = async function (req, res, next) {
         title: "Vehicle Not Found",
         message: "The vehicle you are looking for could not be found.",
         nav,
+        errors: null,
       });
       return;
     }
@@ -40,6 +42,7 @@ invCont.buildItemDetails = async function (req, res, next) {
       + vehicleData.inv_model, 
       nav, 
       grid,
+      errors: null,
     });
   } catch (error) {
     next(error);
