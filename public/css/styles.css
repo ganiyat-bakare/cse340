@@ -641,7 +641,7 @@ footer p a {
       align-items: flex-start;
       max-width: 1000px;
       gap: 8rem;
-      align-items: flex-end;
+      /* align-items: flex-end; */
     }
 
     .vehicle-image-wrapper,
