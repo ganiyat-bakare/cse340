@@ -341,6 +341,10 @@ section {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
+.form-container p {
+  font-style: italic;
+}
+
 /* Login form box */
 .form {
   display: flex;
@@ -359,8 +363,13 @@ section {
   font-size: 0.95rem;
 }
 
+small {
+  padding: 1rem;
+  white-space: nowrap;
+}
+
 /* Inputs */
-.form input {
+.form input, #classificationList {
   margin-top: 0.3rem;
   padding: 0.6rem 0.8rem;
   font-size: 1rem;
@@ -369,7 +378,7 @@ section {
   transition: border-color 0.2s ease;
 }
 
-.form input:focus {
+.form input:focus, .form textarea:focus {
   border: 2px solid var(--hightlight-text);
   outline: none;
 }
@@ -451,18 +460,51 @@ section {
   padding-left: 1.25rem;
 }
 
-input {
+input, textarea {
   transition: background-color 0.3s, border 0.3s;
 }
 
-input:focus:invalid {
+input:focus:invalid, 
+textarea:focus:invalid {
   background-color: #ffe6e6;
   border: 1px solid #cc0000;
 }
 
-input:required:valid, input:focus:valid {
+input:required:valid,
+textarea:required:valid, 
+input:focus:valid,
+textarea:focus:valid {
   background-color: #e6ffe6;
   border: 1px solid #009900;
+}
+
+/* input:invalid, textarea:invalid {
+  background-color: #fdd; 
+  border: 1px solid red;
+}
+
+input.valid, textarea.valid {
+  background-color: #dfd; 
+  border: 1px solid green;
+}
+
+input.invalid, textarea.invalid {
+  background-color: #fdd;
+  border: 1px solid red;
+} */
+
+.management-links {
+  list-style: none;
+  padding: 0;
+}
+
+.management-links li {
+  margin-bottom: 10px;
+}
+
+.management-links a {
+  color: var(--hover);
+  font-weight: bold;
 }
 
 footer p {
@@ -597,7 +639,9 @@ footer p a {
     .vehicle-detail-grid {
       flex-direction: row;
       align-items: flex-start;
-      max-width: 1100px;
+      max-width: 1000px;
+      gap: 8rem;
+      align-items: flex-end;
     }
 
     .vehicle-image-wrapper,

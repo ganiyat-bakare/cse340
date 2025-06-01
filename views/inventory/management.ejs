@@ -1,0 +1,22 @@
+<!-- Display title -->
+<% if (title) { %>
+<h1 class="page-title"><%= title %></h1>
+<% } %>
+
+<!-- Display view message -->
+<%- messages() %>
+
+<!-- Display server-side validation errors -->
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<!-- Management Links -->
+<ul class="management-links">
+  <li><a href="/inv/add-classification">Add New Classification</a></li>
+  <li><a href="/inv/add-inventory">Add New Vehicle</a></li>
+</ul>
