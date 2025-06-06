@@ -10,6 +10,8 @@
     --paragraph-text: #444;
     --accent1: #ccc;
     --accent2: #ddd;
+    --accent3:  #f9f9f9;
+    --accent4:  #e6f2ff;
     --hover: #0088cc; 
     --link: #0d2c54;
 }
@@ -496,6 +498,7 @@ input.invalid, textarea.invalid {
 .management-links {
   list-style: none;
   padding: 0;
+  margin-bottom: 2rem;
 }
 
 .management-links li {
@@ -505,6 +508,47 @@ input.invalid, textarea.invalid {
 .management-links a {
   color: var(--hover);
   font-weight: bold;
+}
+
+#classificationList {
+  background-color: var(--accent2);
+}
+
+/* Style for inventory table */
+#inventoryDisplay {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background-color:  var(--accent3);
+}
+
+#inventoryDisplay thead {
+  background-color: var(--hover);
+  color: var(--primary-background);
+}
+
+#inventoryDisplay th,
+#inventoryDisplay td {
+  border: 1px solid var(--accent1);
+  padding: 0.75rem;
+  text-align: left;
+}
+
+#inventoryDisplay tr:nth-child(even) {
+  background-color: var(--accent4);
+}
+
+#inventoryDisplay a {
+  color: var(--hover);
+  text-decoration: none;
+}
+
+#inventoryDisplay a:hover {
+  text-decoration: underline;
+}
+
+footer {
+  margin-top: 2rem;
 }
 
 footer p {

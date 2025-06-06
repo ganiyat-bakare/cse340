@@ -98,4 +98,30 @@ validate.checkLoginData = async (req, resizeBy, next) => {
     next()
 }
 
+/*  **********************************
+  *  Login Data Validation Rules
+  * ********************************* */
+validate.loginRules = () => {
+  return [
+    body('account_email')
+      .trim()
+      .notEmpty()
+      .isEmail()
+      .normalizeEmail()
+      .withMessage('A valid email is required.'),
+    body('account_password')
+      .trim()
+      .notEmpty()
+      .escape() 
+      .isStrongPassword({
+        minLength: 12,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+      })
+      .withMessage('Password does not meet requirements.')
+  ];
+}
+
 module.exports = validate

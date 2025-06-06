@@ -1,13 +1,18 @@
 /* *********************************
  * Account routes
  * ********************************/
-const regValidate = require('../utilities/account-validation')
+const regValidate = require("../utilities/account-validation")
 
 // Needed Resources
 const express = require("express")
 const router = new express.Router()
 const accountController = require("../controllers/accountController")
 const utilities = require("../utilities/")
+
+/* *********************************
+ * Deliver Account Management View
+ * ********************************/
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
 
 /* *********************************
  * Deliver Login View
@@ -29,12 +34,14 @@ router.post(
     utilities.handleErrors(accountController.registerAccount)
 )
 
-// Process the login attempt
+/* *********************************
+ * Process the login request
+ * ********************************/
 router.post(
   "/login",
-  (req, res) => {
-    res.status(200).send('login process')
-  }
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
 )
 
 module.exports = router

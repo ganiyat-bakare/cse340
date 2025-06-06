@@ -1,0 +1,32 @@
+<!-- Display title -->
+<% if (title) { %>
+<h1 class="page-title"><%= title %></h1>
+<% } %>
+
+<!-- Display view message -->
+<%- messages() %>
+
+<!-- Display server-side validation errors -->
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<h1>Welcome <%= accountFirstname %>!</h1>
+<div class="management-links">
+  <p><%= message %></p>
+
+  <a href="/account/update">Edit Account Information</a>
+</div>
+  <%# if (message) { %>
+<%# } %>
+
+<!-- <a href="/account/update">Update Account Information</a> -->
+
+  <!-- <ul> -->
+    <!-- <li><a href="/account/update">Update Account Information</a></li> -->
+    <!-- <li><a href="/account/logout">Logout</a></li> -->
+  <!-- </ul> -->
