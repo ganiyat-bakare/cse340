@@ -401,13 +401,17 @@ small {
 }
 
 /* Inputs */
-.form input, #classificationList {
+.form input, #classification_id {
   margin-top: 0.3rem;
   padding: 0.6rem 0.8rem;
   font-size: 1rem;
   border-radius: 8px;
   border: 1px solid #cbd5e0;
   transition: border-color 0.2s ease;
+}
+
+#classification_id {
+  background-color: var(--accent2);
 }
 
 .form input:focus, .form textarea:focus {
@@ -546,10 +550,6 @@ input.invalid, textarea.invalid {
 .management-links a {
   color: var(--hover);
   font-weight: bold;
-}
-
-#classificationList {
-  background-color: var(--accent2);
 }
 
 /* Style for inventory table */

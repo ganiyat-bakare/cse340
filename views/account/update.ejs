@@ -24,7 +24,7 @@
         <legend>Account Information</legend>
 
         <label for="account_firstname">First Name 
-        <input type="text" name="account_firstname" id="accountFirstname" required value="<%= locals.account_firstname %>"></label>
+        <input type="text" name="account_firstname" id="account_firstname" required value="<%= locals.account_firstname %>"></label>
         
         <label for="account_lastname">Last Name
         <input type="text" id="account_lastname" name="account_lastname" required value="<%= locals.account_lastname %>"></label>
@@ -46,13 +46,13 @@
         <legend>Change Password</legend>
       
         <label for="account_password">Password
-            <small>*NOTE: YOUR ORIGINAL PASSWORD WILL BE CHANGED.</small>
+          <small>*NOTE: YOUR ORIGINAL PASSWORD WILL BE CHANGED.</small>
         <input type="password" id="account_password" name="account_password"
           required
           pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
-          title="Password must be at least 12 characters and include one capital letter, one number, and one special character.">
+          title="Password must be at least 12 characters and include one capital letter, one number, and one special character."></label>
           <div class="password-requirements">There must be at least 12 characters, 1 uppercase letter, 1 number, and 1 special character.</div>
-          <span id="pswdBtn"> Show Password</span></label>
+          <span id="pswdBtn"> Show Password</span>
 
         <input type="hidden" name="account_id" 
         <% if(locals.account_id) { %> value="<%= locals.account_id %>"
