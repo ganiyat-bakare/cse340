@@ -4,7 +4,12 @@
       <a href="/" title="Return to home page">CSE Motors</a>
     </span>
     <div id="tools">
-      <a title="Click to log in" href="/account/login">MY ACCOUNT</a>
+      <% if (typeof loggedin !== "undefined" && loggedin) { %>
+        <span>Welcome <a href="/account/" title="Go to account management"><%= accountData.account_firstname %></a></span>
+        <a href="/account/logout" title="Log out of your account">Logout</a>
+      <% } else { %>
+        <a title="Click to log in" href="/account/login">MY ACCOUNT</a>
+      <% } %>
     </div>
   </header>
 </div>

@@ -9,14 +9,15 @@ require("dotenv").config()
 * *************************************** */
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav()
-  const accountFirstname = res.locals.accountData?.account_firstname
-  // req.flash("notice", "You're logged in")
+  const accountData = res.locals.accountData
+
   res.render("account/management", {
     title: "Account Management",
     nav,
     message: "You're logged in!",
     errors: null,
-    accountFirstname,
+    accountFirstname: accountData.account_firstname,
+    accountType: accountData.account_type,
   })
 }
 
@@ -134,4 +135,93 @@ async function accountLogin(req, res) {
   }
 }
 
-module.exports = { buildManagement, buildLogin, buildRegister, registerAccount, accountLogin }
+/* ****************************************
+ *  Build update account view
+ * ************************************ */
+const buildUpdateAccount = async (req, res, next) => {
+  const account_id = req.params.account_id;
+  const accountData = await accountModel.getAccountById(account_id);
+  let nav = await utilities.getNav();
+  // Render the form with current account data
+  res.render('account/update', {
+    title: 'Update Account',
+    nav,
+    account_firstname: accountData.account_firstname,
+    account_lastname: accountData.account_lastname,
+    account_email: accountData.account_email,
+    account_id: accountData.account_id,
+    errors: null
+  });
+};
+
+/* ****************************************
+ *  Process account update
+ * ************************************ */
+async function updateAccount(req, res, next) {
+  const errors = validationResult(req);
+  const { account_id, account_firstname, account_lastname, account_email } = req.body;
+
+  if (!errors.isEmpty()) {
+    // repopulate form with submitted data
+    let nav = await utilities.getNav();
+    return res.render('account/update', {
+      title: 'Update Your Account',
+      nav,
+      account_firstname,
+      account_lastname,
+      account_email,
+      account_id,
+      errors: null
+    });
+  }
+
+  try {
+    const result = await accountModel.updateAccount(account_id, account_firstname, account_lastname, account_email);
+    req.flash("notice", "Your account information has been updated.");
+    res.redirect(`/account/update/${account_id}`);
+  } catch (err) {
+    next(err);
+  }
+}
+
+/* ****************************************
+ *  Process password update
+ * ************************************ */
+async function updatePassword(req, res) {
+  let nav = await utilities.getNav();
+  const { accountPassword } = req.body
+  const accountId = req.session.accountId
+
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    req.flash("notice", errors.array().map(e => e.msg).join(", "))
+    return res.redirect("/account/update-password")
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(accountPassword, 10)
+    const result = await accountModel.updatePassword(accountId, hashedPassword)
+    if (result) {
+      req.flash("notice", "Password updated successfully.")
+    } else {
+      req.flash("notice", "Password update failed. Please try again.")
+    }
+    res.redirect("/account/update-password")
+  } catch (error) {
+    console.error("Password Update Error:", error)
+    req.flash("notice", "An error occurred. Please try again.")
+    res.redirect("/account/update-password")
+  }
+}
+
+/* ****************************************
+ *  Process logout request
+ * ************************************ */
+async function logoutAccount(req, res) {
+  res.clearCookie("jwt")
+  req.flash("notice", "You have been logged out.")
+  res.redirect("/")
+}
+
+
+module.exports = { buildManagement, buildLogin, buildRegister, registerAccount, accountLogin, logoutAccount, buildUpdateAccount, updateAccount, updatePassword }

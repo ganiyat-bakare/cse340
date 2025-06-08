@@ -83,7 +83,7 @@ img {
 
 h1,
 h2 {
-    font-size: 1.2em;
+    font-size: 1.4rem;
     font-family: var(--heading-font), serif;
 }
 
@@ -356,6 +356,27 @@ section {
   border: 2px solid var(--primary-background);
 }
 
+fieldset {
+  border: none;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.form legend {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--hightlight-text);
+  margin-bottom: 0.2rem;
+}
+
+fieldset button {
+  margin-top: 1.5rem;
+}
+
+fieldset label {
+  margin-top: 1rem;
+}
+
 /* Labels */
 .form label {
   display: flex;
@@ -503,6 +524,14 @@ input.invalid, textarea.invalid {
 
 .management-links li {
   margin-bottom: 10px;
+}
+
+.management-links h3 {
+  font-size: 1.2em;
+}
+
+.management-links h2, .management-links h3 {
+  margin-top: 2rem;
 }
 
 .management-links a {

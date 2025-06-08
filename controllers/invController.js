@@ -4,9 +4,9 @@ const utilities = require("../utilities/")
 
 const invCont = {}  
 
-/* ***************************  
+/* ****************************************  
  *  Build inventory by classification view  
- * ************************** */  
+ * ************************************** */  
 invCont.buildByClassificationId = async function (req, res, next) {  
   const classification_id = req.params.classificationId  
   try {  
@@ -59,7 +59,7 @@ invCont.buildItemDetails = async function (req, res, next) {
  * ************************** */  
 invCont.buildManagement = async function (req, res, next) {  
   let nav = await utilities.getNav()
-  const classificationList = await utilities.buildClassificationList()  
+  const classificationList = await utilities.buildClassificationList() 
   res.render("inventory/management", {  
     title: "Vehicle Management",  
     nav,  
@@ -94,7 +94,7 @@ invCont.addClassification = async function (req, res) {
       res.redirect("/inv/")  
     } else {  
       req.flash("notice", "Failed to add new classification.")  
-      res.status(500).render("./inv/add-classification", {  
+      res.status(500).render("./inventory/add-classification", {  
         title: "Add Classification",  
         nav,  
         errors: null,  
@@ -255,11 +255,11 @@ invCont.updateInventory = async function(req, res, next) {
     res.redirect("/inv");  
   } else {  
     // On failure, re-render form with current data  
-    const classificationSelect = await utilities.buildClassificationList(classification_id);  
+    const classificationList = await utilities.buildClassificationList(classification_id);  
     res.render("./inventory/edit-inventory", {  
       title: "Edit " + inv_make + " " + inv_model,  
       nav,  
-      classificationSelect,  
+      classificationList,  
       errors: [{ msg: "Failed to update vehicle." }],  
       inv_id,  
       classification_id,

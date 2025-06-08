@@ -5,30 +5,42 @@ const invController = require("../controllers/invController")
 // import handleErrors
 const util = require("../utilities");
 const validate = require("../utilities/inventory-validation")
+
 // Route to build inventory by classification view
 router.get("/type/:classificationId",  util.handleErrors(invController.buildByClassificationId));
+
 // Route for vehicle detail view
 router.get("/detail/:invId", util.handleErrors(invController.buildItemDetails));
+
+// Protect all inventory routes
+router.use(util.checkJWTToken, util.checkLogin, util.checkAccountType)
+
 // Route for inventory management
-router.get("/", util.handleErrors(invController.buildManagement));
+router.get("/", util.checkJWTToken, util.checkLogin, util.checkAccountType, util.handleErrors(invController.buildManagement));
 
 // Route to display add classification view
-router.get("/add-classification", util.handleErrors(invController.buildAddClassification));
+router.get("/add-classification", util.checkJWTToken, util.checkLogin, util.checkAccountType, util.handleErrors(invController.buildAddClassification));
 
 // Route to handle add classification form submission
 router.post(
   "/add-classification",
+  util.checkJWTToken, 
+  util.checkLogin,
+  util.checkAccountType,
   validate.classificationRules(),
   validate.checkClassData,
   util.handleErrors(invController.addClassification)
 )
 
 // Route to add inventory view
-router.get("/add-inventory", util.handleErrors(invController.buildAddInventory));
+router.get("/add-inventory", util.checkJWTToken, util.checkLogin, util.checkAccountType, util.handleErrors(invController.buildAddInventory));
 
 // Route to handle add inventory form submission
 router.post(
   "/add-inventory",
+  util.checkJWTToken,
+  util.checkLogin, 
+  util.checkAccountType,
   validate.inventoryRules(),
   validate.checkInventoryData,
   util.handleErrors(invController.addInventory)
@@ -38,22 +50,28 @@ router.post(
 router.get("/getInventory/:classification_id", util.handleErrors(invController.getInventoryJSON))
 
 // Route to get the edit inventory view
-router.get("/edit/:inv_id", util.handleErrors(invController.editInventory))
+router.get("/edit/:inv_id", util.checkJWTToken, util.checkLogin, util.checkAccountType, util.handleErrors(invController.editInventory))
 
 // Route to handle incoming update request
 router.post(
   "/update", 
+  util.checkJWTToken,
+  util.checkLogin, 
+  util.checkAccountType,
   validate.inventoryRules(),
   validate.checkUpdateData,
   util.handleErrors(invController.updateInventory)
 )
 
 // Route to show the delete confirmation page
-router.get("/delete/:inv_id", util.handleErrors(invController.deleteConfirmation))
+router.get("/delete/:inv_id", util.checkJWTToken, util.checkLogin, util.checkAccountType, util.handleErrors(invController.deleteConfirmation))
 
 // Route to handle the delete request
 router.post(
   "/delete", 
+  util.checkJWTToken, 
+  util.checkLogin,
+  util.checkAccountType,
   util.handleErrors(invController.deleteInventoryItem)
 )
 

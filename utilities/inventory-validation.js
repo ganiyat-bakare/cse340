@@ -22,18 +22,19 @@ validate.classificationRules = () => {
 validate.checkClassData = async (req, res, next) => {
   const { classification_name } = req.body
   const errors = validationResult(req)
+  let nav = await utilities.getNav()
   if (!errors.isEmpty()) {
-    const nav = await utilities.getNav()
     res.render("inventory/add-classification", {
-      errors,
       title: "Add Classification",
       nav,
-      classification_name
+      errors,
+      classification_name,
     })
     return
   }
   next()
 }
+
 
 /* ***************************
  *  Inventory Item Validation Rules
@@ -48,18 +49,21 @@ validate.inventoryRules = () => {
     // Vehicle make is required and must be string
     body("inv_make")
     .trim()
+    .notEmpty()
     .isLength({ min: 3 })
     .withMessage("Please provide the make of the vehicle."),
 
     // Vehicle model is required and must be string
     body("inv_model")
     .trim()
+    .notEmpty()
     .isLength({ min: 3 })
     .withMessage("Please provide the model of the vehicle."),
 
     // Vehicle description is required and must be string
     body("inv_description")
     .trim()
+    .notEmpty()
     .isLength({ min: 5 })
     .withMessage("Please provide the vehicle description."),
     
