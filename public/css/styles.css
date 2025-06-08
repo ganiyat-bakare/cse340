@@ -334,6 +334,15 @@ section {
   font-weight: bold;
 }
 
+.message {
+  color: var(--primary-text);
+  background-color: var(--hightlight);
+  padding: 1rem;
+  list-style-type: none;
+  font-style: italic;
+  font-weight: bold;
+}
+
 .form-container {
   max-width: 420px;
   margin: 2rem auto;

@@ -54,7 +54,8 @@ router.get("/update/:account_id", utilities.handleErrors(accountController.build
  * ********************************/
 router.post(
   "/update", 
-  regValidate.updateAccountRules(), 
+  regValidate.updateAccountRules(),
+  // regValidate.updatePasswordRules(),
   utilities.handleErrors(accountController.updateAccount))
 
 /* *********************************

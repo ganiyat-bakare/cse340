@@ -1,5 +1,6 @@
 const utilities = require("../utilities")
 const accountModel = require("../models/account-model")
+const { validationResult } = require("express-validator")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
@@ -139,80 +140,107 @@ async function accountLogin(req, res) {
  *  Build update account view
  * ************************************ */
 const buildUpdateAccount = async (req, res, next) => {
-  const account_id = req.params.account_id;
-  const accountData = await accountModel.getAccountById(account_id);
-  let nav = await utilities.getNav();
-  // Render the form with current account data
-  res.render('account/update', {
-    title: 'Update Account',
-    nav,
-    account_firstname: accountData.account_firstname,
-    account_lastname: accountData.account_lastname,
-    account_email: accountData.account_email,
-    account_id: accountData.account_id,
-    errors: null
-  });
-};
+  const account_id = parseInt(req.params.account_id);
+  try {
+    const accountData = await accountModel.getAccountById(account_id)
+    let nav = await utilities.getNav()
+    res.render("account/update", {
+      title: "Update Account",
+      nav,
+      account_firstname: accountData.account_firstname,
+      account_lastname: accountData.account_lastname,
+      account_email: accountData.account_email,
+      account_id: accountData.account_id,
+      errors: null,
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 
 /* ****************************************
  *  Process account update
  * ************************************ */
 async function updateAccount(req, res, next) {
-  const errors = validationResult(req);
-  const { account_id, account_firstname, account_lastname, account_email } = req.body;
+  const { account_id, account_firstname, account_lastname, account_email } = req.body
+  const errors = validationResult(req)
 
   if (!errors.isEmpty()) {
-    // repopulate form with submitted data
-    let nav = await utilities.getNav();
-    return res.render('account/update', {
-      title: 'Update Your Account',
+    let nav = await utilities.getNav()
+    return res.render("account/update", {
+      title: "Update Your Account",
       nav,
       account_firstname,
       account_lastname,
       account_email,
       account_id,
-      errors: null
+      errors,
+    })
+  }
+
+  try {
+    const result = await accountModel.updateAccount(
+      account_id,
+      account_firstname,
+      account_lastname,
+      account_email
+    )
+
+    if (result) {
+      // Refresh JWT with updated account data
+      const updatedAccountData = await accountModel.getAccountById(account_id)
+      delete updatedAccountData.account_password
+
+      const accessToken = jwt.sign(updatedAccountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+      if (process.env.NODE_ENV === 'development') {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+      } else {
+        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+      }
+
+      req.flash("message", "Your account information has been updated successfully.")
+    } else {
+      req.flash("notice", "Account update failed. Please try again.")
+    }
+    res.redirect("/account/")
+  } catch (err) {
+    next(err)
+  }
+}
+
+
+/* ****************************************
+ *  Process password update
+ * ************************************ */
+async function updatePassword(req, res, next) {
+  const errors = validationResult(req);
+  const { account_id, account_password } = req.body;
+
+  if (!errors.isEmpty()) {
+    const nav = await utilities.getNav();
+    const accountData = await accountModel.getAccountById(account_id);
+    return res.render('account/update', {
+      title: 'Update Your Account',
+      nav,
+      account_firstname: accountData.account_firstname,
+      account_lastname: accountData.account_lastname,
+      account_email: accountData.account_email,
+      account_id,
+      errors,
     });
   }
 
   try {
-    const result = await accountModel.updateAccount(account_id, account_firstname, account_lastname, account_email);
-    req.flash("notice", "Your account information has been updated.");
-    res.redirect(`/account/update/${account_id}`);
+    const hashedPassword = await bcrypt.hash(account_password, 10);
+    await accountModel.updatePassword(hashedPassword, account_id);
+    req.flash("message", "Your password has been successfully updated.");
+    res.redirect("/account");
   } catch (err) {
     next(err);
   }
 }
 
-/* ****************************************
- *  Process password update
- * ************************************ */
-async function updatePassword(req, res) {
-  let nav = await utilities.getNav();
-  const { accountPassword } = req.body
-  const accountId = req.session.accountId
-
-  const errors = validationResult(req)
-  if (!errors.isEmpty()) {
-    req.flash("notice", errors.array().map(e => e.msg).join(", "))
-    return res.redirect("/account/update-password")
-  }
-
-  try {
-    const hashedPassword = await bcrypt.hash(accountPassword, 10)
-    const result = await accountModel.updatePassword(accountId, hashedPassword)
-    if (result) {
-      req.flash("notice", "Password updated successfully.")
-    } else {
-      req.flash("notice", "Password update failed. Please try again.")
-    }
-    res.redirect("/account/update-password")
-  } catch (error) {
-    console.error("Password Update Error:", error)
-    req.flash("notice", "An error occurred. Please try again.")
-    res.redirect("/account/update-password")
-  }
-}
 
 /* ****************************************
  *  Process logout request
