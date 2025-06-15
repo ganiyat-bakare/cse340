@@ -29,9 +29,11 @@ invCont.buildByClassificationId = async function (req, res, next) {
  *  Build vehicle detail view  
  * ************************** */  
 invCont.buildItemDetails = async function (req, res, next) {  
-  const invId = req.params.invId  
+  const invId = req.params.invId 
+  accountId = req.session.account_id 
   try {  
-    const vehicleData = await invModel.getVehicleById(invId)  
+    const vehicleData = await invModel.getVehicleById(invId) 
+    const reviews = await invModel.getReviewsByInvId(invId) 
     let nav = await utilities.getNav()  
     if (!vehicleData) {  
       res.status(404).render("errors/error", {  
@@ -46,13 +48,40 @@ invCont.buildItemDetails = async function (req, res, next) {
     res.render("./inventory/inventory-detail", {  
       title: vehicleData.inv_make + " " + vehicleData.inv_model,  
       nav,  
-      grid,  
+      grid, 
+      reviews, 
+      accountId,
+      inv_id: invId,
       errors: null,  
     })  
   } catch (err) {  
     next(err)  
   }  
 }  
+
+invCont.addItemReview = async function (req, res, next) {
+  const { inv_id, review_text, review_rating} = req.body
+  const account_id = res.locals.accountData?.account_id
+  try {
+    if (!account_id) {
+      // If user is not logged in, redirect to login page with notice
+      req.flash("notice", "You must be logged in to add a review.")
+       return res.redirect("/account/login")
+    }
+
+    const result = await invModel.addItemReview(inv_id, account_id, review_text, review_rating);
+
+    if (!result) {
+      req.flash("notice", "Failed to add review.");
+    }
+
+    res.redirect(`/inv/detail/${inv_id}`);
+  } catch (err) {
+    console.error("Error adding review:", err);
+    req.flash("notice", "An error occurred while adding your review.");
+    res.redirect(`/inv/detail/${inv_id}`);
+  }
+}
 
 /* ***************************  
  *  Build management view  
@@ -150,7 +179,7 @@ invCont.addInventory = async function (req, res) {
   );
 
   if (addResult) {
-    req.flash("notice", `The ${inv_make} ${inv_model} was successfully added.`);
+    req.flash("notice", `${inv_make} ${inv_model} was successfully added.`);
     res.redirect("/inv/");
   } else {
     let nav = await utilities.getNav();
@@ -313,6 +342,124 @@ invCont.deleteInventoryItem = async function (req, res, next) {
   } catch (error) {
     next(error)
   }
+}
+
+/* ***************************
+ *  Build edit review view     
+* ************************** */
+invCont.buildEditReview = async function (req, res, next) {
+  const reviewId = parseInt(req.params.reviewId);
+  const review = await invModel.getReviewById(reviewId);
+
+  if (!review) {
+    req.flash("notice", "Review not found.");
+    return res.redirect("/account/management");
+  }
+
+  const reviewTitle = `${review.inv_year} ${review.inv_make} ${review.inv_model}`;
+  const reviewDate = new Date(review.review_date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const accountId = res.locals?.accountData?.account_id;
+  if (review.account_id !== accountId) {
+    req.flash("notice", "Unauthorized access to edit review.");
+    return res.redirect("/account/management");
+  }
+
+  let nav = await utilities.getNav();
+  res.render("inventory/edit-review", {
+    title: "Edit " + reviewTitle + " Review",
+    review,
+    reviewDate,
+    nav,
+    errors: null,
+  });
+}
+
+/* ***************************
+ *  Handle Review Update       
+* ************************** */
+invCont.updateReview = async function (req, res, next) {
+  const reviewId = parseInt(req.body.review_id);
+  const reviewText = req.body.review_text;
+  const reviewRating = parseInt(req.body.review_rating)
+  const accountId = res.locals?.accountData?.account_id;
+  
+  const review = await invModel.getReviewById(reviewId);
+  if (!review) {
+    return res.redirect("/account/");
+  }
+
+  // Check ownership
+  if (review.account_id !== accountId) {
+    return res.redirect("/account/");
+  }
+
+  // Proceed to update
+  await invModel.updateReview(reviewId, reviewText, reviewRating);
+  req.flash("message", "Review updated successfully.");
+  res.redirect("/account/");
+}
+
+/* ***************************
+ *  Build delete review view     
+ * ************************** */
+invCont.buildDeleteReview = async function (req, res, next) {
+  const reviewId = parseInt(req.params.reviewId);
+  const review = await invModel.getReviewById(reviewId);
+
+  if (!review) {
+    req.flash("notice", "Review not found.");
+    return res.redirect("/account/management");
+  }
+
+  const reviewTitle = `${review.inv_year} ${review.inv_make} ${review.inv_model}`;
+  const reviewDate = new Date(review.review_date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+
+  const accountId = res.locals?.accountData?.account_id;
+  if (review.account_id !== accountId) {
+    req.flash("notice", "Unauthorized access to delete review.");
+    return res.redirect("/account/management");
+  }
+
+  let nav = await utilities.getNav();
+  res.render("inventory/delete-review", {
+    title: "Delete " + reviewTitle + " Review",
+    review,
+    reviewDate,
+    nav,
+    errors: null,
+  });
+}
+
+/* ***************************
+ *  Process Review Deletion
+ * ************************** */
+invCont.deleteReview = async function (req, res, next) {
+  const reviewId = parseInt(req.body.review_id);
+  const review = await invModel.getReviewById(reviewId);
+
+  if (!review) {
+    req.flash("notice", "Review not found.");
+    return res.redirect("/account/");
+  }
+
+  const accountId = res.locals?.accountData?.account_id;
+  if (review.account_id !== accountId) {
+    req.flash("notice", "Unauthorized to delete this review.");
+    return res.redirect("/account/");
+  }
+
+  await invModel.deleteReview(reviewId);
+  req.flash("message", "Review deleted successfully");
+  res.redirect("/account/");
 }
 
 

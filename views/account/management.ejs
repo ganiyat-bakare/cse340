@@ -29,4 +29,29 @@
     </p>
   <% } %>
 </div>
+
+<% if (reviews && reviews.length > 0) { %>
+  <section class="account-reviews">
+    <h2>My Reviews</h2>
+    <ul class="review-list">
+      <% reviews.forEach((review, index) => { %>
+        <li class="review-item">
+          <span class="review-index"><%= index + 1 %>.</span>
+          <span class="review-text">
+            Reviewed the <%= review.inv_year %> <%= review.inv_make %> <%= review.inv_model %> on 
+            <%= new Date(review.review_date).toLocaleDateString('en-US', {
+              year: 'numeric', month: 'long', day: 'numeric'
+            }) %>
+          </span>
+          <span class="review-actions">
+            | <a href="/inv/review/edit/<%= review.review_id %>" class="review-link">Edit</a>
+            | <a href="/inv/review/delete/<%= review.review_id %>" class="review-link">Delete</a>
+          </span>
+        </li>
+      <% }) %>
+    </ul>
+  </section>
+<% } %>
+
+
   

@@ -1,0 +1,125 @@
+<% if (title) { %>
+  <h1 class="page-title"><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- Display client-side validation errors -->
+<%- messages() %>
+
+<!-- Display server-side validation errors -->
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+
+<div class="form-container">
+  <p>ALL FIELDS ARE REQUIRED.</p>
+
+  <form action="/inv/review/edit" method="post" class="form" id="updateForm">
+
+    <label for="review_date">Review Date
+    <input type="text" id="review_date" value="<%= reviewDate %>" disabled></label>
+
+    <label for="review_text">Review Text
+    <textarea id="review_text" name="review_text" rows="5" minlength="10" required><%= review.review_text %></textarea></label>
+
+    <!-- Star Rating Input -->
+    <label>Rating:</label>
+    <div class="star-rating" id="starRating">
+      <% for (let i = 1; i <= 5; i++) { %>
+        <span class="star <%= review.review_rating >= i ? 'selected' : '' %>" data-value="<%= i %>"></span>
+      <% } %>
+    </div>
+    <input type="hidden" name="review_rating" id="review_rating" value="<%= review.review_rating %>">
+      <div id="reviewRatingMessage">Please select a star rating before submitting.</div>
+
+
+    <button type="submit" disabled>Update Review</button>
+
+    <input type="hidden" name="review_id" value="<%= review.review_id %>">
+  </form>
+</div>
+
+<script>
+  const form = document.querySelector("#updateForm");
+  const updateBtn = form.querySelector("button");
+  const reviewTextInput = document.querySelector("#review_text");
+  const reviewRatingInput = document.querySelector("#review_rating");
+  const reviewStars = document.querySelectorAll(".star-rating .star");
+  const reviewRatingMessage = document.querySelector("#reviewRatingMessage");
+
+  // Store original values
+  const originalText = reviewTextInput.value.trim();
+  const originalRating = parseInt(reviewRatingInput.value) || 0;
+  let reviewCurrentRating = originalRating;
+
+  // Function to update stars visually
+  function updateStars(rating) {
+    reviewStars.forEach((star) => {
+      const value = parseInt(star.dataset.value);
+      star.classList.toggle("selected", value <= rating);
+    });
+  }
+
+  updateStars(reviewCurrentRating); // Set initial stars
+
+  // Check for changes in form data
+  function checkFormChanged() {
+    const currentText = reviewTextInput.value.trim();
+    const currentRating = parseInt(reviewRatingInput.value) || 0;
+
+    if (currentText !== originalText || currentRating !== originalRating) {
+      updateBtn.removeAttribute("disabled");
+    } else {
+      updateBtn.setAttribute("disabled", true);
+    }
+  }
+
+  // Listen to review text input
+  reviewTextInput.addEventListener("input", checkFormChanged);
+
+  // Handle star interaction
+  reviewStars.forEach((star) => {
+    star.addEventListener("click", () => {
+      const value = parseInt(star.dataset.value);
+
+      if (value === reviewCurrentRating) {
+        // Deselect
+        reviewCurrentRating = 0;
+        reviewRatingInput.value = '';
+      } else {
+        reviewCurrentRating = value;
+        reviewRatingInput.value = value;
+      }
+
+      updateStars(reviewCurrentRating);
+      checkFormChanged(); // Check if star rating changed
+    });
+
+    star.addEventListener("mouseover", () => {
+      updateStars(parseInt(star.dataset.value));
+    });
+
+    star.addEventListener("mouseout", () => {
+      updateStars(reviewCurrentRating);
+    });
+  });
+
+  // Validate on submit
+  form.addEventListener("submit", function (e) {
+    const currentRating = parseInt(reviewRatingInput.value) || 0;
+
+    if (currentRating === 0) {
+      e.preventDefault();
+      reviewRatingMessage.style.display = "block";
+    } else {
+      reviewRatingMessage.style.display = "none";
+    }
+  });
+</script>
+

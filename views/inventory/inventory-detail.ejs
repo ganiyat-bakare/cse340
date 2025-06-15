@@ -7,3 +7,130 @@
 <div class="content">
   <%- grid %>
 </div>
+
+<section class="review-section">
+  <h2>Customer Reviews</h2>
+
+  <% if (reviews.length > 0) { %>
+    <ul class="review-list">
+      <% reviews.forEach(review => { %>
+        <li class="review-item">
+          <p><strong><%= review.account_firstname %></strong>
+          <small><%= new Date(review.review_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></small></p>
+          
+          <!-- Show star rating -->
+          <p class="star-display" aria-label="Rating: <%= review.review_rating %> out of 5">
+            <% for (let i = 1; i <= 5; i++) { %>
+              <% if (i <= review.review_rating) { %>
+                <span style="color: gold;">&#9733;</span> <!-- filled star -->
+              <% } else { %>
+                <span style="color: lightgray;">&#9734;</span> <!-- empty star -->
+              <% } %>
+            <% } %>
+          </p>
+        
+          <p><%= review.review_text %></p>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p class="invite">Be the first to leave a review</p>
+  <% } %>
+
+  <% if (locals.loggedin && locals.accountData) { %>
+
+    <!-- Display client-side validation errors -->
+    <%- messages() %>
+
+    <!-- Display server-side validation errors -->
+    <% if (errors) { %>
+      <ul class="notice">
+        <% errors.array().forEach(error => { %>
+          <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+    <% } %>
+
+    <h2>Add Your Own Review</h2>
+    <form action="/inv/review" method="post" class="form">
+
+      <label for="account_firstname">Screen Name: 
+        <input type="text" name="account_firstname" id="account_firstname" required 
+          value="<%= locals.account_firstname || locals.accountData.account_firstname %>">
+      </label>
+
+      <label for="review_text">Review:
+      <textarea name="review_text" id="review_text" rows="5" minlength="10" required></textarea></label>
+
+      <!-- Star Rating Input -->
+      <label>Rating:</label>
+      <div class="star-rating" id="starRating">
+        <% for (let i = 1; i <= 5; i++) { %>
+          <span class="star" data-value="<%= i %>"></span>
+        <% } %>
+      </div>
+      <input type="hidden" name="review_rating" id="review_rating" value="<%= locals.review_rating || "" %>">
+        <div id="reviewRatingMessage">Please select a star rating before submitting.</div>
+
+      <button type="submit">Submit Review</button>
+
+      <input type="hidden" name="inv_id" 
+      value="<%= inv_id %>">
+
+    </form>
+  <% } else { %>
+    <p><a href="/account/login">Log in</a> to write a review.</p>
+  <% } %>
+</section>
+
+<script>
+  const reviewForm = document.querySelector(".form");
+  const reviewRatingMessage = document.getElementById("reviewRatingMessage");
+  const reviewStars = document.querySelectorAll("#starRating .star");
+  const reviewRatingInput = document.getElementById("review_rating");
+  let reviewCurrentRating = parseInt(reviewRatingInput.value) || 0;
+
+  // Function to update stars visually
+  function updateStars(rating) {
+    reviewStars.forEach(star => {
+      const value = parseInt(star.dataset.value);
+      if (value <= rating) {
+        star.classList.add("selected");
+      } else {
+        star.classList.remove("selected");
+      }
+    });
+  }
+  updateStars(reviewCurrentRating);
+
+  // Validate on submit
+  reviewForm.addEventListener("submit", function(e) {
+    if (!reviewRatingInput.value || reviewRatingInput.value === '' || reviewCurrentRating === 0) {
+      e.preventDefault();
+      reviewRatingMessage.style.display = "block";
+    } else {
+      reviewRatingMessage.style.display = "none";
+    }
+  });
+
+  // Star interaction
+  reviewStars.forEach(star => {
+    star.addEventListener("click", () => {
+      const value = parseInt(star.dataset.value);
+      if (value === reviewCurrentRating) {
+        reviewCurrentRating = 0;
+        reviewRatingInput.value = '';
+      } else {
+        reviewCurrentRating = value;
+        reviewRatingInput.value = value;
+      }
+      updateStars(reviewCurrentRating);
+    });
+    star.addEventListener("mouseover", () => {
+      updateStars(parseInt(star.dataset.value));
+    });
+    star.addEventListener("mouseout", () => {
+      updateStars(reviewCurrentRating);
+    });
+  });
+</script>

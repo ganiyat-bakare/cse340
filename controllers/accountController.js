@@ -4,6 +4,7 @@ const { validationResult } = require("express-validator")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
+const invModel = require("../models/inventory-model")  
 
 /* ****************************************
 *  Deliver account management view
@@ -11,6 +12,7 @@ require("dotenv").config()
 async function buildManagement(req, res, next) {
   let nav = await utilities.getNav()
   const accountData = res.locals.accountData
+  const reviews = await invModel.getReviewsByAccountId(accountData.account_id)
 
   res.render("account/management", {
     title: "Account Management",
@@ -19,6 +21,7 @@ async function buildManagement(req, res, next) {
     errors: null,
     accountFirstname: accountData.account_firstname,
     accountType: accountData.account_type,
+    reviews
   })
 }
 

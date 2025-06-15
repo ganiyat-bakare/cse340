@@ -1,0 +1,44 @@
+<% if (title) { %>
+  <h1 class="page-title"><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<!-- Display client-side validation errors -->
+<%- messages() %>
+
+<!-- Display server-side validation errors -->
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+
+<div class="form-container">
+  <p>CONFIRM CORRECT ITEM! DELETION CANNOT BE UNDONE.</p>
+
+  <form action="/inv/review/delete" method="post" class="form">
+
+    <label for="review_date">Review Date
+    <input type="text" id="review_date" value="<%= reviewDate %>" disabled></label>
+
+    <label for="review_text">Review Text
+    <textarea id="review_text" rows="5" readonly disabled><%- review.review_text %></textarea></label>
+
+    <!-- Star Rating Input -->
+    <label>Rating:</label>
+    <div class="star-rating" id="starRating">
+      <% for (let i = 1; i <= 5; i++) { %>
+        <span class="star <%= review.review_rating >= i ? 'selected' : '' %>" data-value="<%= i %>"></span>
+      <% } %>
+    </div>
+    <input type="hidden" name="review_rating" id="review_rating" value="<%= review.review_rating || 0 %>" disabled>
+
+    <button type="submit">Confirm Delete</button>
+
+    <input type="hidden" name="review_id" value="<%= review.review_id %>">
+  </form>
+</div>

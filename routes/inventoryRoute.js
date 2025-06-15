@@ -6,11 +6,49 @@ const invController = require("../controllers/invController")
 const util = require("../utilities");
 const validate = require("../utilities/inventory-validation")
 
+
+// Route to review edit view form
+router.get("/review/edit/:reviewId", util.checkJWTToken, util.checkLogin, util.handleErrors(invController.buildEditReview))
+
+// Route to handle review update
+router.post(
+  "/review/edit",
+  util.checkJWTToken, 
+  util.checkLogin,
+  validate.reviewRules(),
+  validate.checkUpdateReviewData,
+  util.handleErrors(invController.updateReview)
+)
+
+// Route to handle review deletion confirmation view
+router.get("/review/delete/:reviewId", util.checkJWTToken, util.checkLogin, util.handleErrors(invController.buildDeleteReview))
+
+// Route to handle review deletion process
+router.post(
+  "/review/delete",
+  util.checkJWTToken, 
+  util.checkLogin,
+  util.handleErrors(invController.deleteReview)
+)
+
 // Route to build inventory by classification view
 router.get("/type/:classificationId",  util.handleErrors(invController.buildByClassificationId));
 
 // Route for vehicle detail view
 router.get("/detail/:invId", util.handleErrors(invController.buildItemDetails));
+
+// Route to build the review form
+router.get("/review/:invId", util.handleErrors(invController.buildReviewForm));
+
+// Route to handle review form submission
+router.post(
+  "/review",
+  util.checkJWTToken,
+  util.checkLogin,
+  validate.reviewRules(),
+  validate.checkReviewData,
+  util.handleErrors(invController.addItemReview)
+)
 
 // Protect all inventory routes
 router.use(util.checkJWTToken, util.checkLogin, util.checkAccountType)
@@ -74,5 +112,6 @@ router.post(
   util.checkAccountType,
   util.handleErrors(invController.deleteInventoryItem)
 )
+
 
 module.exports = router
