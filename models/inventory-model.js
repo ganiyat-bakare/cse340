@@ -131,7 +131,8 @@ async function deleteInventoryItem(inv_id) {
 async function getReviewsByInvId(inv_id) {
   try {
     const sql = `
-      SELECT r.review_text, r.review_date, review_rating, a.account_firstname
+      SELECT r.review_text, r.review_date, review_rating,
+             a.account_firstname, a.account_lastname
       FROM review r
       JOIN account a ON r.account_id = a.account_id
       WHERE r.inv_id = $1
